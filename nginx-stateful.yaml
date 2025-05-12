@@ -1,11 +1,10 @@
-# nginx-statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion : apps/v1
+kind: Statefulsets
 metadata:
-  name: nginx
+  name:  nginx-statefulsets
 spec:
-  serviceName: "nginx"   # Must match the headless service name
   replicas: 3
+  serviceName: "nginx"
   selector:
     matchLabels:
       app: nginx
@@ -13,20 +12,15 @@ spec:
     metadata:
       labels:
         app: nginx
-    spec:
-      containers:
-        - name: nginx
-          image: nginx:latest
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: html
-              mountPath: /usr/share/nginx/html
-  volumeClaimTemplates:
-    - metadata:
-        name: html
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
+  spec:
+    containers:
+      - name: nginx
+        image: nginx:latest
+        volumeMounts:
+          - mountPath: /usr/share/nginx/html
+            name: nginx-storage
+    volumes:
+      - name: nginx-storage
+        persistentVolumeClaim:
+          claimName: nginx-pvc
+          
