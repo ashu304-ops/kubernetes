@@ -1,0 +1,20 @@
+# it  will  keep copies  of pod  runing  on every nodes for monitoring purpose within cluster
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-daemon
+  namespace:  kube-system
+spec:
+  selector:
+    matchLabels:
+      name: node-monitoring 
+  template:
+    metadata:
+      labels:
+        name: node-monitoring
+    spec:
+      containers:
+        - name: c01
+          image: ngix:latest
+          ports:
+            -  containerPort: 80  
