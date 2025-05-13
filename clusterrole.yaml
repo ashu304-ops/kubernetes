@@ -1,0 +1,9 @@
+# cluster role --cluster-wide---nodes,namespace,pv,clsuterrole,clsuterrolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nodes-reader
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs:  ["get","watch","list"]
